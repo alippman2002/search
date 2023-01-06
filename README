@@ -1,0 +1,433 @@
+Names of group members: Alec Lippman and Grace Cantarella
+
+Description of any known bugs in program: 
+Our only bug is with the pagerank algorithm that is not properly summing the pagerank values
+accross all wikis to 1 (this issue is only present with the small, medium, and big wiki)
+Edstem post 6016 is our edpost which extensively documents this bug along with
+our effort to debug it although it appears to not be an issue with the pages since
+we just tested the pages on their own together with no found issues). As mentioned
+in the Edstem post we are currently getting all points on the autograder for 
+implementation and efficiency for pagerank, so we are unsure on how to approach
+debugging any further.
+
+Instructions for use, describing how a user would interact with your program:
+This program allows a user to index a wiki and search the wiki for the best 
+results (using Index.py and Query.py) A user would interact with this program by 
+inputting an XML file (a collection of wikipedia documents) along with three text files 
+(titles.txt, words.txt, and docs.txt) where the document IDs, pagerank values, and term 
+relevancy for every word in the corpus are written to). A user can run the main loop 
+of the Index class and pass in these 4 system arguments (the xml filepath, titles.txt 
+filepath for writing Ids to titles, docs.txt filepath for writing Ids to pagerank values, 
+and words.txt writing all words in the corpus for every Id to a term relevance value). 
+The three files that the indexer writes to can now be used by the user to find the most 
+relevant wiki pages for a inputted search query in the query.py file. A user can input 
+the 3 text files (titles.txt, words.txt, and docs.txt) into query.py (along with an 
+original True or False to say whether or not pagerank should be used). Then the user 
+can be prompted to make a query which will output the 10 best wiki pages based on the query. 
+The Queryier's output may be less than 10 or none at all depending on the inputted search 
+and if words in the search are found in the pages of the XML file parsed in the indexer.
+
+Description of how the pieces of your program fit together:
+There are two main pieces of this program, Index.py and Query.py. Index.py contains
+the Indexer class, which allows a user to input a XML file (collection of wikis),
+and three files that write ID to title for every document, document to pagerank value, and
+word to ID to term relevance (representing the corpus). the Indexer class will
+write to these three files which will than allow the user to use these files
+in Query.py, inputting them into the Querier class along with --pagerank as the
+first input to the constructor to give the user the option to include pagerank
+values from docs.txt in the Querier for finding the best search results, or not 
+using pagerank if --pagerank is not the first input into the Querier class. The 
+other three inputs are the written text files from the Indexer class. After instantiating 
+a Querier class with the inputs specified above, a user will be prompted to input 
+a query and than they will receive the titles of the best pages according to their 
+query (may be less than 10 if uncommon word or even 0 if no search terms from the 
+query are found). This allows a user to input a collection of documents as XML 
+file and than search for the information they need. Description of features you 
+failed to implement, as well as any extra features you implemented:
+The only feature that is not being correctly implemented is our pagerank algorithm
+which is currently slightly miscalculating the total accross all documents (not adding up to 1).
+We implemented no extra features.
+
+Description of how you testing your program, and ALL of your system tests:
+We have blocked testing into about 3 chunks:
+1. Index.py (includes system testing of Index.py along with unit xml_parser, calculate_term_relevance, and pagerank)
+2. Query.py (includes system testing of Query.py along with unit testing answer_query and process_input)
+3. General unit testing of indexing and querying XML files of varying size, with/without pagerank, and various search queries.
+
+ALL SYSTEM TESTS INCLUDED BELOW:
+
+- TESTING QUERY.PY WITH MEDWIKI, NO PAGERANK
+1) fire (no pagerank)
+Expected (in order):
+firewall (construction)
+pale fire
+ride the lightning
+g?tterd?mmerung
+fsb
+keiretsu
+hephaestus
+kab-500kr
+izabella scorupco
+justin martyr
+
+Results (in order):
+firewall (construction)
+pale fire
+ride the lightning
+g?tterd?mmerung
+fsb
+keiretsu
+hephaestus
+kab-500kr
+izabella scorupco
+justin martyr
+
+10/10, in expected order
+
+2) cats (no pagerank)
+Expected (in order):
+kattegat
+kiritimati
+morphology (linguistics)
+northern mariana islands
+lynx
+freyja
+politics of lithuania
+isle of man
+nirvana (uk band)
+autosomal dominant polycystic kidney
+
+Results (in order):
+kattegat
+kiritimati
+morphology (linguistics)
+northern mariana islands
+lynx
+freyja
+politics of lithuania
+isle of man
+nirvana (uk band)
+autosomal dominant polycystic kidney
+
+10/10, in expected order
+
+3) United States (no pagerank)
+Expected (in order):
+federated states of micronesia
+imperial units
+joule
+knowledge aided retrieval in activity context
+imperialism in asia
+elbridge gerry
+martin van buren
+pennsylvania
+finite-state machine
+louisiana
+
+Results (in order): 
+federated states of micronesia
+imperial units
+joule
+knowledge aided retrieval in activity context
+imperialism in asia
+elbridge gerry
+martin van buren
+pennsylvania
+finite-state machine
+louisiana
+
+10/10, in expected order
+
+4) Pope (no pagerank)
+Expected (in order):
+pope alexander iv
+pope benedict iii
+pope clement iii
+pope gregory v
+pope gregory viii
+pope gregory xiv
+pope formosus
+pope eugene ii
+pope alexander viii
+pope
+
+Results (in order):
+pope alexander iv
+pope benedict iii
+pope clement iii
+pope gregory v
+pope gregory viii
+pope gregory xiv
+pope formosus
+pope eugene ii
+pope alexander viii
+pope
+
+10/10, in expected order
+
+5) Computer Science (no pagerank)
+Expected (in order):
+leo (computer)
+pcp
+junk science
+hacker (term)
+malware
+gary kildall
+motherboard
+foonly
+pvc (disambiguation)
+graphical user interface
+
+Results (in order):
+leo (computer)
+pcp
+junk science
+hacker (term)
+malware
+gary kildall
+motherboard
+foonly
+pvc (disambiguation)
+graphical user interface
+
+10/10, in order
+
+--MEDWIKI TESTS NOT FROM COMPARING WITH PROVIDED TA QUERIES
+
+1) happy face sponge
+Our results (in order):
+parallelepiped
+kepler?poinsot polyhedron
+welcome to the pleasuredome (song)
+maya numerals
+mohism
+maritime archaeology
+fahrenheit 451
+demographics of japan
+marjoram
+fonni
+
+2) auwihorujeaebfsiuhauioweh
+Result:
+No documents contain your input word(s); nothing to display.
+
+3) Unicorn
+Result:
+peter carey (novelist)
+june
+poltergeist
+okapi
+john major
+heraldry
+
+Note, less than 10 results (only 6). Not 10 documents contain this word.
+
+4) beef beef beef beef beef
+Result:
+cuisine of the midwestern united states
+justus von liebig
+hunan cuisine
+beijing cuisine
+oregano
+gluten
+portugal
+food preservation
+hinduism
+john major
+
+5) :quit
+Program quits, nothing to display
+
+- TESTING MEDWIKI WITH QUERY.PY WITH --PAGERANK
+1) Pope (with --pagerank)
+Expected (in order):
+pope
+pope urban vi
+pope paul vi
+pope gregory viii
+pope clement iii
+pope alexander iv
+pope benedict iii
+pope gregory v
+pope gregory xiv
+pope formosus
+
+Results (in order):
+pope
+pope urban vi
+pope paul vi
+monarch
+pope gregory viii
+pope clement iii
+pope alexander iv
+pope benedict iii
+pope gregory v
+pope gregory xiv
+
+9/10 results, mostly in order
+
+2) Battle (with --pagerank)
+Expected (in order):
+falklands war
+navy
+nazi germany
+netherlands
+portugal
+montoneros
+paolo uccello
+history of the netherlands
+norway
+normandy
+
+Results (in order):
+navy
+nazi germany
+portugal
+netherlands
+falklands war
+monarch
+paolo uccello
+normandy
+mesolithic
+michigan
+
+7/10, a bit out of order
+
+3) Search (with --pagerank)
+Expected (in order):
+netherlands
+new amsterdam
+pope
+empress jit?
+empress suiko
+pennsylvania
+george berkeley
+hinduism
+history of the netherlands
+north pole
+
+Results (in order):
+pope
+empress jit?
+netherlands
+empress suiko
+planet
+new amsterdam
+george berkeley
+hinduism
+mercury (planet)
+meher baba
+
+7/10, somewhat in order
+
+-- TESTING MEDWIKI WITH PAGERANK NOT FROM PROVIDED TA QUERIES
+1) Strawberry flavored water (with --pagerank)
+Results:
+oregano
+netherlands
+marjoram
+johannes nicolaus br?nsted
+gin
+gin and tonic
+george berkeley
+lake michigan
+galilean moons
+northern hemisphere
+
+2) How to cook tomatoes in the microwave (with --pagerank)
+peter cook
+neolithic
+netherlands
+telecommunications in morocco
+pizza
+illinois
+telecommunications in kazakhstan
+pakistan
+north pole
+normandy
+
+--TESTING BIGWIKI
+
+1) the semester is almost over (no pagerank)
+Results(in order):
+indian institute of technology kanpur
+grinnell college
+morona
+logistic map
+transportation in guam
+patrilineality
+interrogatories
+mutual recursion
+front line
+no true scotsman
+
+2) (we inputted nothing, and just pressed enter, no pagerank)
+Results:
+No documents contain your input word(s); nothing to display.
+
+3) peculiar (no pagerank)
+Results (in order):
+gavoi
+infundibulum
+pompatus
+heretics of dune
+posthumous execution
+phenetics
+n ray
+great man theory
+irrealism (the arts)
+isidore of seville
+
+4) baffling oxen in between (no pagerank)
+Results (in order):
+transport in lesotho
+m?laren
+guru meditation
+manorialism
+furlong
+geography of nepal
+history of malawi
+medieval warfare
+jason
+marsupial
+
+5) in (no pagerank)
+No documents contain your input word(s); nothing to display.
+We expected this result since "in" is a stopword.
+
+-- TESTING WIKIS THAT WE MADE
+    -- TESTING OUR_OWN_WIKI.xml (notable because there are LESS THAN 10 ENTRIES)
+1) cloudly (no --pagerank)
+Results:
+cloudy
+
+2) sun (no --pagerank)
+Results:
+sun
+
+3) overcast (no --pagerank)
+Results:
+No documents contain your input word(s); nothing to display.
+
+4) happi (no --pagerank)
+Results:
+sunny
+
+5) sad (no --pagerank)
+Results:
+cloudy
+rainy
+
+6) sad (with --pagerank)
+Results:
+cloudy
+rainy
+
+    -- TESTING OUR_OWN_WIKI_LINKS.xml (notable because of the links)
+1) sad (no --pagerank)
+cloudy
+rainy
+
+2) sad (with --pagerank)
+rainy
+cloudy

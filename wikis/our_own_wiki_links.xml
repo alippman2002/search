@@ -1,0 +1,37 @@
+<xml>
+<page>
+<id> 1
+</id>
+
+<title> Cloudy
+</title>
+
+<text> When it is cloudy, I am sad.
+</text>
+
+</page>
+
+<page>
+<id> 2
+</id>
+
+<title> Rainy
+</title>
+
+<text> When it is rainy, I am sad. 
+</text>
+
+</page>
+
+<page>
+<id> 3
+</id>
+
+<title> Sunny
+</title> 
+
+<text> When it is sunny, I am happy. I love the sun. [[Rainy]]
+</text>
+
+</page>
+</xml>
